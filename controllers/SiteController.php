@@ -77,6 +77,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Yii::$app->session->setFlash('success', 'Вы успешно авторизовались!');
             return $this->goBack();
         }
 
@@ -124,5 +125,22 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionRegister() { 
+        $model = new \app\models\User(); 
+        if ($model->load(Yii::$app->request->post())) { 
+            if ($model->validate()) { // form inputs are valid, do something here return; 
+                $model->auth_key = Yii::$app->security->generateRandomString();
+                $model->password = Yii::$app->security->generatePasswordHash($model->password);
+                if ($model->save()) {
+                    Yii::$app->user->login($model, 24 * 3600);
+                    Yii::$app->session->setFlash('success', 'Вы успешно зарегистрирповались!');
+                    Yii::$app->session->setFlash('info', 'Вы успешно авторизовались!');
+                    return $this->goHome();
+                }
+            } 
+        } 
+        return $this->render('register', [ 'model' => $model, ]); 
     }
 }
