@@ -41,10 +41,10 @@ class AccountController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Application::find(),
+            'query' => Application::find()->where(['user_id' => Yii::$app->user->id]),
             
             'pagination' => [
-                'pageSize' => 50
+                'pageSize' => 5
             ],
             'sort' => [
                 'defaultOrder' => [
@@ -146,5 +146,20 @@ class AccountController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionFeedback($id) { 
+        $model = new \app\models\Feedback(); 
+        $model->application_id = $id;
+        if ($model->load(Yii::$app->request->post())) { 
+            if ($model->validate()) {
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('info', 'Вы успешно поделились отзывом!');
+                    return $this->redirect(['/account']);
+                }
+                
+            } 
+        } 
+        return $this->render('feedback', [ 'model' => $model, ]); 
     }
 }

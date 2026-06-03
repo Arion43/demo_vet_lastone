@@ -4,21 +4,20 @@ use app\models\Application;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
+use yii\widgets\LinkPager;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 /** @var yii\web\View $this */
 /** @var app\models\ApplicationSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Applications';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="application-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2>Создание заявки</h2>
 
     <p>
-        <?= Html::a('Create Application', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Записаться на приём', ['create'], ['class' => 'btn btn-outline-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -27,9 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'item'],
-        'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->id), ['view', 'id' => $model->id]);
-        },
+        'layout' => "{summary} \n {items} \n {pager}",
+        'itemView' => 'item',
+        'pager' => [
+        'class' => LinkPager::class
+        ]
     ]) ?>
 
     <?php Pjax::end(); ?>

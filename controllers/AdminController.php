@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use app\models\Application;
 use app\models\ApplicationSearch;
+use app\models\Status;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -89,17 +91,22 @@ class AdminController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    
+
+    public function actionChangeStatus($id, $status)
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        if ($this->request->isPost) {
+            $model->status_id = Status::getAliasStatusedId($status);
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Статус заявки успешно изменён!');
+                return $this->redirect(['view', 'id' => $model->id]);
+
+            }
+            
+        }
     }
 
     /**

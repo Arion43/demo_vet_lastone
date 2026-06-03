@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Status;
 use yii\helpers\Html;
 ?>
 <div class="card">
@@ -9,6 +10,19 @@ use yii\helpers\Html;
     <p class="card-text"><strong>Тип питомца: </strong><?= $model->petType->title ?></p>
     <p class="card-text"><strong>Тип услуги: </strong><?= $model->servisType->title ?></p>
     <p class="card-text"><strong>Тип оплаты: </strong><?= $model->payType->title ?></p>
-    <a> <?= Html::a('Подробнее', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?> </a>
+    <div>
+      <?php if ($model->feedback): ?>
+        <b>Отзыв: </b><?= $model->feedback->title ?>
+      <?php endif ?>
+    </div>
+    <div class='my-1'>
+
+      <?= $model->status_id === Status::getAliasStatusedId('done') && !$model->feedback
+        ? Html::a('Оставить отзыв', ['feedback', 'id' => $model->id], ['class' => 'btn btn-outline-primary'])
+        : '' ?>
+
+
+      <?= Html::a('Подробнее', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?> 
+    </div>
   </div>
 </div>

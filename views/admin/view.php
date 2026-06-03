@@ -6,18 +6,18 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\Application $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Applications', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Заявка №' . $model->id . ' от ' . Yii::$app->formatter->asDateTime($model->created_at, 'php: H:i:s d.m.Y');
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="application-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
+
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Назад', ['/admin'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -30,14 +30,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'created_at',
             'user_id',
-            'status_id',
-            'pet_type_id',
-            'servis_type_id',
+            'created_at',
+            [
+                'attribute' => 'pet_type_id',
+                'value' => $model->petType->title,
+            ],
+            [
+                'attribute' => 'servis_type_id',
+                'value' => $model->servisType->title,
+            ],
             'date',
             'time',
-            'pay_type_id',
+            [
+                'attribute' => 'pay_type_id',
+                'value' => $model->payType->title,
+            ],
+            [
+                'attribute' => 'status_id',
+                'value' => $model->status->title,
+            ],
         ],
     ]) ?>
 

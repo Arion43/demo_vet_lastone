@@ -50,6 +50,7 @@ class Application extends \yii\db\ActiveRecord
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['status_id' => 'id']],
             [['servis_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ServisType::class, 'targetAttribute' => ['servis_type_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            // [['application_id'], 'exist', 'skipOnError' => true, 'targetClass' => Feedback::class, 'targetAttribute' => ['application_id' => 'id']],
         ];
     }
 
@@ -76,9 +77,9 @@ class Application extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getFeedbacks()
+    public function getFeedback()
     {
-        return $this->hasMany(Feedback::class, ['application_id' => 'id']);
+        return $this->hasOne(Feedback::class, ['application_id' => 'id']);
     }
 
     /**
