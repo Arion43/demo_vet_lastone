@@ -56,4 +56,11 @@ class ServisType extends \yii\db\ActiveRecord
         return $this->hasMany(Application::class, ['servis_type_id' => 'id']);
     }
 
+    public static function getServisType() {
+        return static::find()
+            ->select('title')
+            ->indexBy('id')
+            ->column();
+    }
+
 }

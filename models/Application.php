@@ -60,14 +60,14 @@ class Application extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'created_at' => 'Created At',
-            'user_id' => 'User ID',
-            'status_id' => 'Status ID',
-            'pet_type_id' => 'Pet Type ID',
-            'servis_type_id' => 'Servis Type ID',
-            'date' => 'Date',
-            'time' => 'Time',
-            'pay_type_id' => 'Pay Type ID',
+            'created_at' => 'Дата создания',
+            'user_id' => 'Пользователь',
+            'status_id' => 'Статус',
+            'pet_type_id' => 'Тип животного',
+            'servis_type_id' => 'Тип услуги',
+            'date' => 'Дата',
+            'time' => 'Время',
+            'pay_type_id' => 'Тип оплаты',
         ];
     }
 

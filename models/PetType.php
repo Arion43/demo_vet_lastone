@@ -56,4 +56,10 @@ class PetType extends \yii\db\ActiveRecord
         return $this->hasMany(Application::class, ['pet_type_id' => 'id']);
     }
 
+    public static function getPetType() {
+        return static::find()
+            ->select('title')
+            ->indexBy('id')
+            ->column();
+    }
 }
